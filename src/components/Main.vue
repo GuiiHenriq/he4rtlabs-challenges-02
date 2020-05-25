@@ -5,24 +5,62 @@
         <button>Inserir</button>
         <button>Apagar</button>
         <button>Importar</button>
-        <button>Exportar</button>
+        <button @click="createJson">Exportar</button>
       </section>
 
       <section class="valor-hora">
-        <input type="value">
+        <label for="price-hour">Valor Hora:</label>
+        <input id="price-hour" type="text" v-model="priceHour">
       </section>
     </div>
 
     <div class="row">
-      <main><p>List Funcionalidades</p></main>
-      <aside><p>Valores</p></aside>
+      <main>
+        <div class="form">
+          <form>
+            <label for="functions">Funcionalidade:</label>
+            <input id="functions" type="text" v-model="functions">
+
+            <label for="dev-hours">Horas de Desenvolvimento:</label>
+            <input id="dev-hours" type="number" v-model="devHours">
+
+            <label for="qa-hours">Horas de Teste:</label>
+            <input id="qa-hours" type="number" v-model="qaHours">
+          </form>
+        </div>
+      </main>
+
+      <aside>
+        <h2>Funcionalidades:{{functions}}</h2>
+        <h2>Horas de Desenvolvimento:{{devHours}}</h2>
+        <h2>Horas de Teste:{{qaHours}}</h2>
+        <h2>Valor Total:{{priceHour}}</h2>
+      </aside>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Main'
+  name: 'Main',
+  data() {
+    return {
+      priceHour: 0,
+      functions: '',
+      devHours: 0,
+      qaHours: 0
+    }
+  },
+  methods: {
+    createJson() {
+      const jsonExport = {
+        'feature': this.functions,
+        'devHours': parseFloat(this.devHours),
+        'testHours': parseFloat(this.qaHours)
+      }
+      console.log(jsonExport);
+    }
+  }
 }
 </script>
 
@@ -35,18 +73,26 @@ export default {
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
-
-  section {
-  }
   
   main {
     min-width: 70%;
-    background: red;
+    background: #222f3e;
+    color: white;
   }
 
   aside {
-    background: blueviolet;
+    background: #576574;
+    color: white;
     min-width: 30%;
   }
+}
+
+.form {
+  width: 50%;
+  margin: 0 auto;
+  form {
+    display: flex;
+    flex-direction: column;
+  } 
 }
 </style>
