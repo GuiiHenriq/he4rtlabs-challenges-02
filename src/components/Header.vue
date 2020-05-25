@@ -1,7 +1,7 @@
 <template>
-  <div class="header">
+  <header>
     <h1>Header</h1>
-  </div>
+  </header>
 </template>
 
 <script>
@@ -10,5 +10,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+header {
+  display: flex;
+  width: 100%;
+  height: 5rem;
+  background-color: brown;
+}
 </style>
