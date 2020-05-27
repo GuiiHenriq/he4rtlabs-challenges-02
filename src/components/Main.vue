@@ -16,18 +16,13 @@
 
     <div class="row">
       <main>
-        <div class="form">
-          <form>
-            <label for="functions">Funcionalidade:</label>
-            <input id="functions" type="text" v-model="functions">
-
-            <label for="dev-hours">Horas de Desenvolvimento:</label>
-            <input id="dev-hours" type="number" v-model="devHours">
-
-            <label for="qa-hours">Horas de Teste:</label>
-            <input id="qa-hours" type="number" v-model="qaHours">
-          </form>
-        </div>
+        <ul>
+          <li v-for="(valor, index) in arrayValores" :key="index">
+            <p>Funcionalidade: {{valor.feature}}</p>
+            <p>Horas de Desenvolvimento: {{valor.devHours}}</p>
+            <p>Horas de Teste: {{valor.qaHours}}</p>
+          </li>
+        </ul>
       </main>
 
       <aside>
@@ -37,6 +32,20 @@
         <h2>Valor Total:{{priceHour}}</h2>
       </aside>
     </div>
+
+    <div class="form">
+          <form>
+            <label for="functions">Funcionalidade:</label>
+            <input id="functions" type="text" v-model.lazy="functions">
+
+            <label for="dev-hours">Horas de Desenvolvimento:</label>
+            <input id="dev-hours" type="number" v-model.lazy.number="devHours" class="test">
+
+            <label for="qa-hours">Horas de Teste:</label>
+            <input id="qa-hours" type="number" v-model.lazy.number="qaHours">
+          </form>
+          <button @click="teste">Inserir</button>
+        </div>
   </div>
 </template>
 
@@ -48,10 +57,21 @@ export default {
       priceHour: 0,
       functions: '',
       devHours: 0,
-      qaHours: 0
+      qaHours: 0,
+      arrayValores: null
     }
   },
   methods: {
+    teste() {
+      this.arrayValores = [
+        {
+          'feature': this.functions,
+          'devHours': this.devHours,
+          'qaHours': this.qaHours
+        }
+      ]
+      return this.arrayValores;
+    },
     createJson() {
       const jsonExport = {
         'feature': this.functions,
@@ -59,7 +79,7 @@ export default {
         'testHours': parseFloat(this.qaHours)
       }
       console.log(jsonExport);
-    }
+    },
   }
 }
 </script>
