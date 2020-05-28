@@ -16,47 +16,33 @@
 
     <div class="row">
       <main>
-        <ul>
-          <li v-for="(valor, index) in objFeature" :key="index">
-            <p>Funcionalidade: {{valor.feature}}</p>
-            <p>Horas de Desenvolvimento: {{valor.devHours}}</p>
-            <p>Horas de Teste: {{valor.qaHours}}</p>
-          </li>
+        <ul v-for="item in todos" :key="item.id">
+          <li>Funcionalidade: {{item.feature}}</li>
+          <li>Horas de Desenvolvimento: {{item.devHours}}</li>
+          <li>Horas de Teste: {{item.qaHours}}</li>
         </ul>
       </main>
 
       <aside>
-        <h2>Funcionalidades:{{features}}</h2>
-        <h2>Horas de Desenvolvimento:{{devHours}}</h2>
-        <h2>Horas de Teste:{{qaHours}}</h2>
+        <h2>Funcionalidades:{{feature}}</h2>
+        <h2>Horas de Desenvolvimento:{{totalDevHours}}</h2>
+        <h2>Horas de Teste:{{totalQaHours}}</h2>
         <h2>Valor Total:{{priceHour}}</h2>
       </aside>
     </div>
 
     <div class="form">
-      <form v-for="i in input" :key="i" type="text" class="form-control" :id='"item"+i'>
+      <form @submit="handleSubmit">
         <label for="features">Funcionalidade:</label>
-        <input id="features" type="text" v-model.lazy="features" />
+        <input id="features" type="text" v-model.lazy="feature" />
 
         <label for="dev-hours">Horas de Desenvolvimento:</label>
-        <input id="dev-hours" type="number" v-model.lazy.number="devHours" class="test" />
+        <input id="dev-hours" type="number" v-model.number="devHours" />
 
         <label for="qa-hours">Horas de Teste:</label>
-        <input id="qa-hours" type="number" v-model.lazy.number="qaHours" />
+        <input id="qa-hours" type="number" v-model.number="qaHours" />
+        <button>Adicionar</button>
       </form>
-      <!--<form v-for="i in input" :key="i" type="text" class="form-control" :id='"item"+i'>
-        <label for="features">Funcionalidade:</label>
-        <input id="features" type="text" class="features" />
-
-        <label for="dev-hours">Horas de Desenvolvimento:</label>
-        <input id="dev-hours" type="number" class="dev-hours" />
-
-        <label for="qa-hours">Horas de Teste:</label>
-        <input id="qa-hours" type="number" class="qa-hours" />
-      </form>-->
-      
-      <button @click="insertData">Inserir</button>
-      <button @click="input++" type="button">Adicionar</button>
     </div>
   </div>
 </template>
@@ -67,44 +53,57 @@ export default {
   data() {
     return {
       priceHour: 0,
-      features: "",
-      devHours: 0,
-      qaHours: 0,
       objFeature: null,
-      input: 1
+      input: 1,
+      /*todos: [{
+        'id': 1,
+        'feature': 'name 1',
+        'devHours': 'devHours 1',
+        'qaHours': 'qaHours 1'
+      }],*/
+      todos: [],
+      feature: '',
+      devHours: '',
+      qaHours: '',
+      totalDevHours: '',
+      totalQaHours: ''
     };
   },
   methods: {
-    insertData() {
-      this.objFeature = [
-        {
-          feature: this.features,
-          devHours: this.devHours,
-          qaHours: this.qaHours
+    handleSubmit: function(e) {
+      e.preventDefault();
+      let obj;
+      if (this.feature.trim().length) {
+        obj = {
+          'id': this.todos.length + 1,
+          'feature': this.feature,
+          'devHours': this.devHours,
+          'qaHours': this.qaHours
         }
-      ];
-      return this.objFeature;
+        this.todos.push(obj);
+        this.feature = '';
+        this.devHours = '';
+        this.qaHours = '';
+      }
 
-      /*const elFeatures = document.querySelectorAll('.features');
-      const elDevHours = document.querySelector('.dev-hours').value;
-      const elQAHours = document.querySelector('.qa-hours').value;
-      for (let i = 0; i < elFeatures.length; i++) {
-        this.objFeature = [
-          {
-            feature: elFeatures[i].value
-          }
-        ]
-      }*/
+      let sumDevHours = 0;
+      let sumQAHours = 0;
+      for (let i = 0; i < this.todos.length; i++) {
+        sumDevHours = sumDevHours + this.todos[i].devHours;
+        sumQAHours = sumQAHours + this.todos[i].qaHours;
+      }
+      this.totalDevHours = sumDevHours;
+      this.totalQaHours = sumQAHours;
     },
     createJson() {
       const jsonExport = {
         feature: this.features,
-        devHours: parseFloat(this.devHours),
-        testHours: parseFloat(this.qaHours)
+        devHours: this.devHours,
+        qaHours: this.qaHours
       };
       console.log(jsonExport);
     }
-  }
+  },
 };
 </script>
 
