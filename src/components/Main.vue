@@ -5,7 +5,7 @@
         <button>Inserir</button>
         <button>Apagar</button>
         <button>Importar</button>
-        <button @click="createJson">Exportar</button>
+        <button @click="exportJson">Exportar</button>
       </section>
 
       <section class="valor-hora">
@@ -17,6 +17,7 @@
     <div class="row">
       <main>
         <ul v-for="item in todos" :key="item.id">
+          <li @click="apagar">{{item.id}}<li>
           <li>Funcionalidade: {{item.feature}}</li>
           <li>Horas de Desenvolvimento: {{item.devHours}}</li>
           <li>Horas de Teste: {{item.qaHours}}</li>
@@ -30,9 +31,9 @@
             {{feature}}
           </li>
         </ul>
-        <h2>Horas de Desenvolvimento:{{totalDevHours}}</h2>
-        <h2>Horas de Teste:{{totalQaHours}}</h2>
-        <h2>Valor Total:{{totalPriceHour}}</h2>
+        <h2>Horas de Desenvolvimento: {{totalDevHours}}</h2>
+        <h2>Horas de Teste: {{totalQaHours}}</h2>
+        <h2>Valor Total: {{totalPriceHour}}</h2>
       </aside>
     </div>
 
@@ -75,7 +76,7 @@ export default {
     };
   },
   methods: {
-    handleSubmit: function(e) {
+    handleSubmit(e) {
       e.preventDefault();
       let obj;
       if (this.feature.trim().length) {
@@ -105,13 +106,26 @@ export default {
       this.totalQaHours = sumQAHours;
       this.totalPriceHour = this.priceHour * (this.totalDevHours + this.totalQaHours);
     },
+    apagar(e) {
+      console.log(e.event)
+    },
     createJson() {
-      const jsonExport = {
-        feature: this.features,
-        devHours: this.devHours,
-        qaHours: this.qaHours
-      };
-      console.log(jsonExport);
+      console.log(this.todos);
+    },
+    /*download() {
+      let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.todos));
+      let dlAnchorElem = document.getElementById('downloadAnchorElem');
+      dlAnchorElem.setAttribute("href",     dataStr     );
+      dlAnchorElem.setAttribute("download", "scene.json");
+    }*/
+    exportJson(){
+      let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.todos));
+      let downloadAnchorNode = document.createElement('a');
+      downloadAnchorNode.setAttribute("href",     dataStr);
+      downloadAnchorNode.setAttribute("download", "features" + ".json");
+      document.body.appendChild(downloadAnchorNode); // required for firefox
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
     }
   },
 };
