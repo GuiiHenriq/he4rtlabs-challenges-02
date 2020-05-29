@@ -10,7 +10,7 @@
 
       <section class="valor-hora">
         <label for="price-hour">Valor Hora:</label>
-        <input id="price-hour" type="text" v-model="priceHour" />
+        <input id="price-hour" type="text" v-model.number="priceHour" />
       </section>
     </div>
 
@@ -24,10 +24,15 @@
       </main>
 
       <aside>
-        <h2>Funcionalidades:{{feature}}</h2>
+        <h2>Funcionalidades:</h2>
+        <ul>
+          <li v-for="(feature, index) in features" :key="index">
+            {{feature}}
+          </li>
+        </ul>
         <h2>Horas de Desenvolvimento:{{totalDevHours}}</h2>
         <h2>Horas de Teste:{{totalQaHours}}</h2>
-        <h2>Valor Total:{{priceHour}}</h2>
+        <h2>Valor Total:{{totalPriceHour}}</h2>
       </aside>
     </div>
 
@@ -52,9 +57,6 @@ export default {
   name: "Main",
   data() {
     return {
-      priceHour: 0,
-      objFeature: null,
-      input: 1,
       /*todos: [{
         'id': 1,
         'feature': 'name 1',
@@ -65,8 +67,11 @@ export default {
       feature: '',
       devHours: '',
       qaHours: '',
+      priceHour: '',
       totalDevHours: '',
-      totalQaHours: ''
+      totalQaHours: '',
+      totalPriceHour: '',
+      features: []
     };
   },
   methods: {
@@ -88,12 +93,17 @@ export default {
 
       let sumDevHours = 0;
       let sumQAHours = 0;
+      let teste;
       for (let i = 0; i < this.todos.length; i++) {
+        teste = this.todos[i].feature;
         sumDevHours = sumDevHours + this.todos[i].devHours;
         sumQAHours = sumQAHours + this.todos[i].qaHours;
       }
+      console.log(teste)
+      this.features.push(teste);
       this.totalDevHours = sumDevHours;
       this.totalQaHours = sumQAHours;
+      this.totalPriceHour = this.priceHour * (this.totalDevHours + this.totalQaHours);
     },
     createJson() {
       const jsonExport = {
