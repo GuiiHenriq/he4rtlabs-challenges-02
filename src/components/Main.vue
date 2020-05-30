@@ -22,6 +22,12 @@
           <li>Horas de Desenvolvimento: {{item.devHours}}</li>
           <li>Horas de Teste: {{item.qaHours}}</li>
         </ul>
+
+        <ul v-for="(item, index) in importFeatures" :key="index">
+          <li>Funcionalidade: {{importFeatures}}</li>
+        </ul>
+
+        <h1>{{teste}}</h1>
       </main>
 
       <aside>
@@ -50,6 +56,8 @@
         <button>Adicionar</button>
       </form>
     </div>
+
+    <input type="file" id="fileInput">
   </div>
 </template>
 
@@ -72,7 +80,9 @@ export default {
       totalDevHours: '',
       totalQaHours: '',
       totalPriceHour: '',
-      features: []
+      features: [],
+      importFeatures: [],
+      teste: ''
     };
   },
   methods: {
@@ -112,22 +122,46 @@ export default {
     createJson() {
       console.log(this.todos);
     },
-    /*download() {
-      let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.todos));
-      let dlAnchorElem = document.getElementById('downloadAnchorElem');
-      dlAnchorElem.setAttribute("href",     dataStr     );
-      dlAnchorElem.setAttribute("download", "scene.json");
-    }*/
     exportJson(){
       let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.todos));
       let downloadAnchorNode = document.createElement('a');
       downloadAnchorNode.setAttribute("href",     dataStr);
       downloadAnchorNode.setAttribute("download", "features" + ".json");
-      document.body.appendChild(downloadAnchorNode); // required for firefox
+      document.body.appendChild(downloadAnchorNode);
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
+    },
+    importJson() {
+      const upload = document.getElementById('fileInput');
+        if (upload) {
+          upload.addEventListener('change', function() {
+            if (upload.files.length > 0) {
+              let reader = new FileReader();
+              
+              reader.addEventListener('load', function() {
+                let result = JSON.parse(reader.result);
+                
+                for (let i = 0; i < result.length; i++) {
+                  //let counter = result[i];
+                  this.importFeatures = result[i];
+                  this.teste = result[i].feature;
+                  console.log(this.importFeatures)
+                  console.log(this.teste)
+                }
+              });
+              
+              reader.readAsText(upload.files[0]);
+            }
+          });
+        }
     }
   },
+  created() {
+    this.importJson();
+  },
+  mounted() {
+    this.importJson();
+  }
 };
 </script>
 
