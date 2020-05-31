@@ -22,8 +22,6 @@ export default {
 </script>
 
 <style>
-@import './assets/style/reset.css';
-
 #app {
   max-width: 1280px;
   margin: 0 auto;
