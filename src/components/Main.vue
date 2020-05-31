@@ -2,15 +2,15 @@
   <div class="main">
     <div class="row">
       <section class="actions">
-        <button class="btn tooltip" data-tooltip="Adicionar" @click="modalFeature = !modalFeature"><i class="icon icon-plus"></i></button>
-        <button class="btn tooltip" data-tooltip="Deletar"><i class="icon icon-delete"></i></button>
-        <button class="btn tooltip" data-tooltip="Importar" @click="modalImport = !modalImport"><i class="icon icon-upload"></i></button>
-        <button class="btn tooltip" data-tooltip="Exportar" @click="exportJson"><i class="icon icon-download"></i></button>
+        <button class="btn btn-primary btn-lg tooltip" data-tooltip="Adicionar" @click="modalFeature = !modalFeature"><i class="icon icon-plus"></i></button>
+        <button class="btn btn-primary btn-lg tooltip" data-tooltip="Deletar" @click="activeDelete = !activeDelete"><i class="icon icon-delete"></i></button>
+        <button class="btn btn-primary btn-lg tooltip" data-tooltip="Importar" @click="modalImport = !modalImport"><i class="icon icon-upload"></i></button>
+        <button class="btn btn-primary btn-lg tooltip" data-tooltip="Exportar" @click="exportJson"><i class="icon icon-download"></i></button>
       </section>
 
       <section class="valor-hora">
-        <label for="price-hour">Valor Hora:</label>
-        <input id="price-hour" type="text" v-model.number.lazy="priceHour" />
+        <label class="form-inline" for="price-hour">Valor Hora:</label>
+        <input class="form-inline" id="price-hour" type="text" v-model.number.lazy="priceHour" />
       </section>
     </div>
 
@@ -19,14 +19,17 @@
         <ul v-for="(item, index) in todos" :key="item.id">
           <li>
             Funcionalidade: {{item.feature}}
-            <button class="btn btn-action s-circle btn-sm" @click="deleteItem(index)"><i class="icon icon-cross"></i></button>
+            <button class="btn btn-action s-circle btn-sm" data="delete-item" :class="activeDelete ? 'active' : ''" @click="deleteItem(index)"><i class="icon icon-cross"></i></button>
           </li>
           <li>Horas de Desenvolvimento: {{item.devHours}}</li>
           <li>Horas de Teste: {{item.qaHours}}</li>
         </ul>
 
-        <ul v-for="item in importFeatures" :key="item.id">
-          <li>Funcionalidade: {{item.feature}}</li>
+        <ul v-for="(item, index) in importFeatures" :key="item.id">
+          <li>
+            Funcionalidade: {{item.feature}}
+            <button class="btn btn-action s-circle btn-sm" data="delete-item" :class="activeDelete ? 'active' : ''" @click="deleteItem(index)"><i class="icon icon-cross"></i></button>
+          </li>
           <li>Horas de Desenvolvimento: {{item.devHours}}</li>
           <li>Horas de Teste: {{item.qaHours}}</li>
         </ul>
@@ -53,16 +56,16 @@
         <div class="modal-body">
           <div class="content">
             <form @submit="handleSubmit">
-              <label for="features">Funcionalidade:</label>
-              <input id="features" type="text" v-model.lazy="feature" />
+              <label class="form-label" for="features">Funcionalidade:</label>
+              <input class="form-input" id="features" type="text" v-model.lazy="feature" />
 
-              <label for="dev-hours">Horas de Desenvolvimento:</label>
-              <input id="dev-hours" type="number" v-model.number="devHours" />
+              <label class="form-label" for="dev-hours">Horas de Desenvolvimento:</label>
+              <input class="form-input" id="dev-hours" type="number" v-model.number="devHours" />
 
-              <label for="qa-hours">Horas de Teste:</label>
-              <input id="qa-hours" type="number" v-model.number="qaHours" />
+              <label class="form-label" for="qa-hours">Horas de Teste:</label>
+              <input class="form-input" id="qa-hours" type="number" v-model.number="qaHours" />
               <div class="modal-footer">
-                <button><i class="icon icon-check"></i></button>
+                <button class="btn btn-primary btn-lg"><i class="icon icon-check"></i></button>
               </div>
             </form>
           </div>
@@ -79,7 +82,7 @@
         </div>
         <div class="modal-body">
           <div class="content">
-            <input type="file" ref="myFile" @change="importJson" />
+            <input class="form-file" type="file" ref="myFile" @change="importJson" />
           </div>
         </div>
       </div>
@@ -98,15 +101,10 @@ export default {
         'feature': 'name 1',
         'devHours': 'devHours 1',
         'qaHours': 'qaHours 1'
-      },
-      {
-        'id': 2,
-        'feature': 'name 2',
-        'devHours': 'devHours 2',
-        'qaHours': 'qaHours 2'
       }],
       modalFeature: false,
       modalImport: false,
+      activeDelete: false,
       //todos: [],
       feature: "",
       devHours: "",
@@ -149,7 +147,12 @@ export default {
       this.totalQaHours = sumQAHours;
     },
     deleteItem(index) {
-      this.$delete(this.todos, index);
+      if(this.todos.length) {
+        this.$delete(this.todos, index);
+      }
+      if(this.importFeatures.length) {
+        this.$delete(this.importFeatures, index);
+      }
     },
     exportJson() {
       let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.todos));
@@ -220,5 +223,13 @@ export default {
 form {
   display: flex;
   flex-direction: column;
+}
+
+.btn[data="delete-item"] {
+  display: none;
+}
+
+.btn[data="delete-item"].active {
+  display: inline-block;
 }
 </style>
