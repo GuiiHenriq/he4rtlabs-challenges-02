@@ -2,23 +2,25 @@
   <div class="main">
     <div class="row">
       <section class="actions">
-        <button>Inserir</button>
-        <button>Apagar</button>
-        <button>Importar</button>
-        <button @click="exportJson">Exportar</button>
+        <button class="btn tooltip" data-tooltip="Adicionar" @click="modalFeature = !modalFeature"><i class="icon icon-plus"></i></button>
+        <button class="btn tooltip" data-tooltip="Deletar"><i class="icon icon-delete"></i></button>
+        <button class="btn tooltip" data-tooltip="Importar" @click="modalImport = !modalImport"><i class="icon icon-upload"></i></button>
+        <button class="btn tooltip" data-tooltip="Exportar" @click="exportJson"><i class="icon icon-download"></i></button>
       </section>
 
       <section class="valor-hora">
         <label for="price-hour">Valor Hora:</label>
-        <input id="price-hour" type="text" v-model.number="priceHour" />
+        <input id="price-hour" type="text" v-model.number.lazy="priceHour" />
       </section>
     </div>
 
     <div class="row">
       <main>
-        <ul v-for="item in todos" :key="item.id">
-          <li @click="apagar">{{item.id}}<li>
-          <li>Funcionalidade: {{item.feature}}</li>
+        <ul v-for="(item, index) in todos" :key="item.id">
+          <li>
+            Funcionalidade: {{item.feature}}
+            <button class="btn btn-action s-circle btn-sm" @click="deleteItem(index)"><i class="icon icon-cross"></i></button>
+          </li>
           <li>Horas de Desenvolvimento: {{item.devHours}}</li>
           <li>Horas de Teste: {{item.qaHours}}</li>
         </ul>
@@ -31,33 +33,58 @@
       </main>
 
       <aside>
-        <h2>Funcionalidades:</h2>
+        <h6>Funcionalidades:</h6>
         <ul>
-          <li v-for="(feature, index) in features" :key="index">
-            {{feature}}
-          </li>
+          <li v-for="(feature, index) in features" :key="index">{{feature}}</li>
         </ul>
-        <h2>Horas de Desenvolvimento: {{totalDevHours}}</h2>
-        <h2>Horas de Teste: {{totalQaHours}}</h2>
-        <h2>Valor Total: {{totalPriceHour}}</h2>
+        <h6>Horas de Desenvolvimento: {{totalDevHours}}</h6>
+        <h6>Horas de Teste: {{totalQaHours}}</h6>
+        <h6>Valor Total: {{totalPriceHour}}</h6>
       </aside>
     </div>
 
-    <div class="form">
-      <form @submit="handleSubmit">
-        <label for="features">Funcionalidade:</label>
-        <input id="features" type="text" v-model.lazy="feature" />
+    <div v-if="modalFeature" class="modal" :class="modalFeature ? 'active' : ''" id="modal-id">
+      <a @click.prevent="modalFeature = !modalFeature" href="#close" class="modal-overlay" aria-label="Close"></a>
+      <div class="modal-container">
+        <div class="modal-header">
+          <a @click.prevent="modalFeature = !modalFeature" href="#close" class="btn btn-clear float-right" aria-label="Close"></a>
+          <div class="modal-title h5">Insira Suas Features</div>
+        </div>
+        <div class="modal-body">
+          <div class="content">
+            <form @submit="handleSubmit">
+              <label for="features">Funcionalidade:</label>
+              <input id="features" type="text" v-model.lazy="feature" />
 
-        <label for="dev-hours">Horas de Desenvolvimento:</label>
-        <input id="dev-hours" type="number" v-model.number="devHours" />
+              <label for="dev-hours">Horas de Desenvolvimento:</label>
+              <input id="dev-hours" type="number" v-model.number="devHours" />
 
-        <label for="qa-hours">Horas de Teste:</label>
-        <input id="qa-hours" type="number" v-model.number="qaHours" />
-        <button>Adicionar</button>
-      </form>
+              <label for="qa-hours">Horas de Teste:</label>
+              <input id="qa-hours" type="number" v-model.number="qaHours" />
+              <div class="modal-footer">
+                <button><i class="icon icon-check"></i></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <input type="file" ref="myFile" @change="importJson">
+    <div v-if="modalImport" class="modal" :class="modalImport ? 'active' : ''" id="modal-id">
+      <a @click.prevent="modalImport = !modalImport" href="#close" class="modal-overlay" aria-label="Close"></a>
+      <div class="modal-container">
+        <div class="modal-header">
+          <a @click.prevent="modalImport = !modalImport" href="#close" class="btn btn-clear float-right" aria-label="Close"></a>
+          <div class="modal-title h5">Importe Seu JSON</div>
+        </div>
+        <div class="modal-body">
+          <div class="content">
+            <input type="file" ref="myFile" @change="importJson" />
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -66,20 +93,28 @@ export default {
   name: "Main",
   data() {
     return {
-      /*todos: [{
+      todos: [{
         'id': 1,
         'feature': 'name 1',
         'devHours': 'devHours 1',
         'qaHours': 'qaHours 1'
-      }],*/
-      todos: [],
-      feature: '',
-      devHours: '',
-      qaHours: '',
-      priceHour: '',
-      totalDevHours: '',
-      totalQaHours: '',
-      totalPriceHour: '',
+      },
+      {
+        'id': 2,
+        'feature': 'name 2',
+        'devHours': 'devHours 2',
+        'qaHours': 'qaHours 2'
+      }],
+      modalFeature: false,
+      modalImport: false,
+      //todos: [],
+      feature: "",
+      devHours: "",
+      qaHours: "",
+      priceHour: "",
+      totalDevHours: "",
+      totalQaHours: "",
+      totalPriceHour: "",
       features: [],
       importFeatures: []
     };
@@ -90,15 +125,15 @@ export default {
       let obj;
       if (this.feature.trim().length) {
         obj = {
-          'id': this.todos.length + 1,
-          'feature': this.feature,
-          'devHours': this.devHours,
-          'qaHours': this.qaHours
-        }
+          id: this.todos.length + 1,
+          feature: this.feature,
+          devHours: this.devHours,
+          qaHours: this.qaHours
+        };
         this.todos.push(obj);
-        this.feature = '';
-        this.devHours = '';
-        this.qaHours = '';
+        this.feature = "";
+        this.devHours = "";
+        this.qaHours = "";
       }
 
       let sumDevHours = 0;
@@ -112,42 +147,49 @@ export default {
       this.features.push(features);
       this.totalDevHours = sumDevHours;
       this.totalQaHours = sumQAHours;
-      this.totalPriceHour = this.priceHour * (this.totalDevHours + this.totalQaHours);
     },
-    apagar(e) {
-      console.log(e.event)
+    deleteItem(index) {
+      this.$delete(this.todos, index);
     },
-    exportJson(){
+    exportJson() {
       let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.todos));
-      let downloadAnchorNode = document.createElement('a');
-      downloadAnchorNode.setAttribute("href",     dataStr);
-      downloadAnchorNode.setAttribute("download", "features" + ".json");
-      document.body.appendChild(downloadAnchorNode);
-      downloadAnchorNode.click();
-      downloadAnchorNode.remove();
+      let downloadAnchorNode = document.createElement("a");
+      console.log(this.todos)
+      if(this.todos.length) {
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", "features" + ".json");
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+      } else {
+        alert('Preencha!')
+      }
     },
     importJson() {
-      console.log('selected a file');
+      console.log("selected a file");
       console.log(this.$refs.myFile.files[0]);
-      
+
       let file = this.$refs.myFile.files[0];
       //if(!file || file.type !== 'text/plain') return;
-      
+
       let reader = new FileReader();
       reader.readAsText(file, "UTF-8");
-      reader.onload =  evt => {
+      reader.onload = evt => {
         //this.text = evt.target.result;
         let result = JSON.parse(evt.target.result);
         for (let i = 0; i < result.length; i++) {
           this.importFeatures.push(result[i]);
         }
-        
-      }
+      };
       reader.onerror = evt => {
         console.error(evt);
-      }
-      
+      };
+      this.modalImport = false;
     }
+  },
+  beforeUpdate() {
+    this.totalPriceHour = this.priceHour * (this.totalDevHours + this.totalQaHours);
+    console.log(`Price Hour ${this.priceHour}`);
   }
 };
 </script>
@@ -175,12 +217,8 @@ export default {
   }
 }
 
-.form {
-  width: 50%;
-  margin: 0 auto;
-  form {
-    display: flex;
-    flex-direction: column;
-  }
+form {
+  display: flex;
+  flex-direction: column;
 }
 </style>
