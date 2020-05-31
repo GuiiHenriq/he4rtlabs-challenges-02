@@ -23,11 +23,11 @@
           <li>Horas de Teste: {{item.qaHours}}</li>
         </ul>
 
-        <ul v-for="(item, index) in importFeatures" :key="index">
-          <li>Funcionalidade: {{importFeatures}}</li>
+        <ul v-for="item in importFeatures" :key="item.id">
+          <li>Funcionalidade: {{item.feature}}</li>
+          <li>Horas de Desenvolvimento: {{item.devHours}}</li>
+          <li>Horas de Teste: {{item.qaHours}}</li>
         </ul>
-
-        <h1>{{teste}}</h1>
       </main>
 
       <aside>
@@ -57,7 +57,7 @@
       </form>
     </div>
 
-    <input type="file" id="fileInput">
+    <input type="file" ref="myFile" @change="importJson">
   </div>
 </template>
 
@@ -81,8 +81,7 @@ export default {
       totalQaHours: '',
       totalPriceHour: '',
       features: [],
-      importFeatures: [],
-      teste: ''
+      importFeatures: []
     };
   },
   methods: {
@@ -104,23 +103,19 @@ export default {
 
       let sumDevHours = 0;
       let sumQAHours = 0;
-      let teste;
+      let features;
       for (let i = 0; i < this.todos.length; i++) {
-        teste = this.todos[i].feature;
+        features = this.todos[i].feature;
         sumDevHours = sumDevHours + this.todos[i].devHours;
         sumQAHours = sumQAHours + this.todos[i].qaHours;
       }
-      console.log(teste)
-      this.features.push(teste);
+      this.features.push(features);
       this.totalDevHours = sumDevHours;
       this.totalQaHours = sumQAHours;
       this.totalPriceHour = this.priceHour * (this.totalDevHours + this.totalQaHours);
     },
     apagar(e) {
       console.log(e.event)
-    },
-    createJson() {
-      console.log(this.todos);
     },
     exportJson(){
       let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.todos));
@@ -132,35 +127,27 @@ export default {
       downloadAnchorNode.remove();
     },
     importJson() {
-      const upload = document.getElementById('fileInput');
-        if (upload) {
-          upload.addEventListener('change', function() {
-            if (upload.files.length > 0) {
-              let reader = new FileReader();
-              
-              reader.addEventListener('load', function() {
-                let result = JSON.parse(reader.result);
-                
-                for (let i = 0; i < result.length; i++) {
-                  //let counter = result[i];
-                  this.importFeatures = result[i];
-                  this.teste = result[i].feature;
-                  console.log(this.importFeatures)
-                  console.log(this.teste)
-                }
-              });
-              
-              reader.readAsText(upload.files[0]);
-            }
-          });
+      console.log('selected a file');
+      console.log(this.$refs.myFile.files[0]);
+      
+      let file = this.$refs.myFile.files[0];
+      //if(!file || file.type !== 'text/plain') return;
+      
+      let reader = new FileReader();
+      reader.readAsText(file, "UTF-8");
+      reader.onload =  evt => {
+        //this.text = evt.target.result;
+        let result = JSON.parse(evt.target.result);
+        for (let i = 0; i < result.length; i++) {
+          this.importFeatures.push(result[i]);
         }
+        
+      }
+      reader.onerror = evt => {
+        console.error(evt);
+      }
+      
     }
-  },
-  created() {
-    this.importJson();
-  },
-  mounted() {
-    this.importJson();
   }
 };
 </script>
