@@ -14,15 +14,16 @@
       </section>
     </div>
 
-    <div class="row">
+    <div class="row content">
       <main>
+        <h2>Suas Features</h2>
         <ul v-for="(item, index) in todos" :key="item.id">
           <li>
-            Funcionalidade: {{item.feature}}
+            <strong>Funcionalidade:</strong> {{item.feature}}
             <button class="btn btn-action s-circle btn-sm" data="delete-item" :class="activeDelete ? 'active' : ''" @click="deleteItem(index)"><i class="icon icon-cross"></i></button>
           </li>
-          <li>Horas de Desenvolvimento: {{item.devHours}}</li>
-          <li>Horas de Teste: {{item.qaHours}}</li>
+          <li><strong>Horas de Desenvolvimento:</strong> {{item.devHours}}h</li>
+          <li><strong>Horas de Teste:</strong> {{item.qaHours}}h</li>
         </ul>
 
         <ul v-for="(item, index) in importFeatures" :key="item.id">
@@ -98,9 +99,9 @@ export default {
     return {
       todos: [{
         'id': 1,
-        'feature': 'name 1',
-        'devHours': 'devHours 1',
-        'qaHours': 'qaHours 1'
+        'feature': 'Correção BUG',
+        'devHours': 5,
+        'qaHours': 1.2
       }],
       modalFeature: false,
       modalImport: false,
@@ -208,16 +209,24 @@ export default {
   justify-content: space-between;
 
   main {
-    min-width: 70%;
-    background: #222f3e;
-    color: white;
+    min-width: 65%;
+    background: #fff;
+    color: #0d1317;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
   }
 
   aside {
-    background: #576574;
+    background: #6564db;
     color: white;
     min-width: 30%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
   }
+}
+
+.content {
+  padding-top: 10px;
 }
 
 form {

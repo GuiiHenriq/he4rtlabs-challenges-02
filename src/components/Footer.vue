@@ -1,6 +1,13 @@
 <template>
-  <footer>
-    <h1>Footer</h1>
+  <footer class="navbar">
+    <section class="navbar-section">
+      <img src="../assets/logo.png" class="img-responsive ..." alt="...">
+    </section>
+    <section class="navbar-center">
+     <h1>Footer</h1>
+    </section>
+    <section class="navbar-section">
+    </section>
   </footer>
 </template>
 
@@ -11,11 +18,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
 footer {
-  display: flex;
-  width: 100%;
-  height: 5rem;
-  background-color: #2c3e50;
-  color: #ecf0f1;
+  background-color: #0d1317;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  color: #fff;
+
+  img {
+    max-width: 200px;
+  }
+
+  h1 {
+    font-family: 'Anton', sans-serif;
+  }
 }
 </style>

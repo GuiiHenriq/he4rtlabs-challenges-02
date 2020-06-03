@@ -21,9 +21,31 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" >
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap');
+
 #app {
   max-width: 1280px;
   margin: 0 auto;
 }
+
+body, input, label, button {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+.btn.btn-primary {
+  background-color: #6564db !important;
+}
+
+ul, li {
+  list-style: none;
+}
+
+//#0d1317
+//#101d42
+//#232ed1
+//#6564db
+//#89d2dc
 </style>
