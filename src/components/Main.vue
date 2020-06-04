@@ -37,12 +37,12 @@
       </main>
 
       <aside>
-        <h6>Funcionalidades:</h6>
-        <ul>
+        <h6>Total de Funcionalidades: {{features.length}}</h6>
+        <!--<ul>
           <li v-for="(feature, index) in features" :key="index">{{feature}}</li>
-        </ul>
-        <h6>Horas de Desenvolvimento: {{totalDevHours}}</h6>
-        <h6>Horas de Teste: {{totalQaHours}}</h6>
+        </ul>-->
+        <h6>Total Horas de Desenvolvimento: {{totalDevHours}}</h6>
+        <h6>Total Horas de Teste: {{totalQaHours}}</h6>
         <h6>Valor Total: {{totalPriceHour}}</h6>
       </aside>
     </div>
