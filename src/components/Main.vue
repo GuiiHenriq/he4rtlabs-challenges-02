@@ -24,6 +24,7 @@
           </li>
           <li><strong>Horas de Desenvolvimento:</strong> {{item.devHours}}h</li>
           <li><strong>Horas de Teste:</strong> {{item.qaHours}}h</li>
+          <li><strong>Valor:</strong> {{item.pricePerFeature | numeroPreco}}</li>
         </ul>
 
         <ul v-for="(item, index) in importFeatures" :key="item.id">
@@ -114,6 +115,7 @@ export default {
       totalDevHours: "",
       totalQaHours: "",
       totalPriceHour: "",
+      //pricePerFeature: [],
       features: [],
       importFeatures: []
     };
@@ -127,7 +129,8 @@ export default {
           id: this.todos.length + 1,
           feature: this.feature,
           devHours: this.devHours,
-          qaHours: this.qaHours
+          qaHours: this.qaHours,
+          pricePerFeature: this.priceHour * (this.devHours + this.qaHours)
         };
         this.todos.push(obj);
         this.feature = "";
@@ -137,13 +140,14 @@ export default {
 
       let sumDevHours = 0;
       let sumQAHours = 0;
-      let features;
+      let sumFeatures = 0;
       for (let i = 0; i < this.todos.length; i++) {
-        features = this.todos[i].feature;
+        sumFeatures = this.todos[i].feature;
         sumDevHours = sumDevHours + this.todos[i].devHours;
         sumQAHours = sumQAHours + this.todos[i].qaHours;
       }
-      this.features.push(features);
+
+      this.features.push(sumFeatures);
       this.totalDevHours = sumDevHours;
       this.totalQaHours = sumQAHours;
     },
