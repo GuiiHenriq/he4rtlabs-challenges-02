@@ -46,7 +46,7 @@
         </ul>-->
         <h6>Total Horas de Desenvolvimento: {{totalDevHours}}</h6>
         <h6>Total Horas de Teste: {{totalQaHours}}</h6>
-        <h6>Valor Total: {{totalPriceHour}}</h6>
+        <h6>Valor Total: {{totalPriceHour | numeroPreco}}</h6>
       </aside>
     </div>
 
@@ -117,6 +117,7 @@ export default {
       totalDevHours: "",
       totalQaHours: "",
       totalPriceHour: "",
+      listPriceHour: [],
       features: [],
       importFeatures: []
     };
@@ -124,6 +125,8 @@ export default {
   methods: {
     handleSubmit(e) {
       e.preventDefault();
+
+      // Inserindo os Dados do Form em um Objeto
       let obj;
       if (this.feature.trim().length && this.priceHour) {
         obj = {
@@ -142,22 +145,28 @@ export default {
         alert('Preencha seu valor por hora!')
       }
 
+      // Soma das Horas de DEV, QA e Contador de Features
       let sumDevHours = 0;
       let sumQAHours = 0;
       let sumFeatures = 0;
-      let sumPriceHour = 1;
+      let sumPriceHour = 0;
       for (let i = 0; i < this.todos.length; i++) {
         sumFeatures = this.todos[i].feature;
         sumDevHours = sumDevHours + this.todos[i].devHours;
         sumQAHours = sumQAHours + this.todos[i].qaHours;
-        sumPriceHour = sumPriceHour + this.todos[i].pricePerFeature;
-        console.log(this.todos[i].pricePerFeature)
+        sumPriceHour = this.todos[i].pricePerFeature;
       }
-      this.totalPriceHour = sumPriceHour;
-      console.log(this.totalPriceHour)
+      this.listPriceHour.push(sumPriceHour);
       this.features.push(sumFeatures);
       this.totalDevHours = sumDevHours;
       this.totalQaHours = sumQAHours;
+
+      // Soma de Todos os Valores
+      let totalPriceHour = 0;
+      for ( let i = 0; i < this.listPriceHour.length; i++ ){
+        totalPriceHour += this.listPriceHour[i];
+      }
+      this.totalPriceHour = totalPriceHour;
     },
     deleteItem(index) {
       if(this.todos.length) {
