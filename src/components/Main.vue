@@ -9,8 +9,10 @@
       </section>
 
       <section class="valor-hora">
-        <label class="form-inline" for="price-hour">Valor Hora:</label>
-        <input class="form-inline" id="price-hour" type="text" v-model.number.lazy="priceHour" />
+        <div class="input-group">
+          <span class="input-group-addon">R$</span>
+          <input type="text" class="form-input" placeholder="Valor Hora" v-model.number.lazy="priceHour">
+        </div>
       </section>
     </div>
 
@@ -115,7 +117,6 @@ export default {
       totalDevHours: "",
       totalQaHours: "",
       totalPriceHour: "",
-      //pricePerFeature: [],
       features: [],
       importFeatures: []
     };
@@ -124,7 +125,7 @@ export default {
     handleSubmit(e) {
       e.preventDefault();
       let obj;
-      if (this.feature.trim().length) {
+      if (this.feature.trim().length && this.priceHour) {
         obj = {
           id: this.todos.length + 1,
           feature: this.feature,
@@ -136,17 +137,24 @@ export default {
         this.feature = "";
         this.devHours = "";
         this.qaHours = "";
+        this.pricePerFeature = "";
+      } else {
+        alert('Preencha seu valor por hora!')
       }
 
       let sumDevHours = 0;
       let sumQAHours = 0;
       let sumFeatures = 0;
+      let sumPriceHour = 1;
       for (let i = 0; i < this.todos.length; i++) {
         sumFeatures = this.todos[i].feature;
         sumDevHours = sumDevHours + this.todos[i].devHours;
         sumQAHours = sumQAHours + this.todos[i].qaHours;
+        sumPriceHour = sumPriceHour + this.todos[i].pricePerFeature;
+        console.log(this.todos[i].pricePerFeature)
       }
-
+      this.totalPriceHour = sumPriceHour;
+      console.log(this.totalPriceHour)
       this.features.push(sumFeatures);
       this.totalDevHours = sumDevHours;
       this.totalQaHours = sumQAHours;
@@ -196,8 +204,8 @@ export default {
     }
   },
   beforeUpdate() {
-    this.totalPriceHour = this.priceHour * (this.totalDevHours + this.totalQaHours);
-    console.log(`Price Hour ${this.priceHour}`);
+    //this.totalPriceHour = this.priceHour * (this.totalDevHours + this.totalQaHours);
+    //console.log(`Price Hour ${this.priceHour}`);
   }
 };
 </script>
