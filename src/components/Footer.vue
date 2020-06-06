@@ -1,7 +1,7 @@
 <template>
   <footer class="navbar">
     <section class="navbar-section">
-      <img src="../assets/logo.png" class="img-responsive ..." alt="...">
+      <img src="../assets/logo-footer.png" class="img-responsive ..." alt="...">
     </section>
     <section class="navbar-center">
      <h1>Footer</h1>

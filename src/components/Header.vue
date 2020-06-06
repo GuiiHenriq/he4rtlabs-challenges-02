@@ -1,10 +1,10 @@
 <template>
   <header class="navbar">
     <section class="navbar-section">
-      <img src="../assets/logo.png" class="img-responsive ..." alt="...">
+      <img src="../assets/logo.png" class="img-responsive" alt="Logo He4rt devs">
     </section>
     <section class="navbar-center">
-     <h1>Planilha Freelancer</h1>
+     <h1>Planilha Freelas</h1>
     </section>
     <section class="navbar-section">
     </section>
@@ -22,7 +22,6 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
 header {
-  background-color: #0d1317;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   color: #fff;
@@ -33,6 +32,7 @@ header {
 
   h1 {
     font-family: 'Anton', sans-serif;
+    color: black;
   }
 }
 </style>

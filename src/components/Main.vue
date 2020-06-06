@@ -19,6 +19,7 @@
     <div class="row content">
       <main>
         <h2>Suas Features</h2>
+
         <ul v-for="(item, index) in todos" :key="item.id">
           <li>
             <strong>Funcionalidade:</strong> {{item.feature}}
@@ -28,14 +29,15 @@
           <li><strong>Horas de Teste:</strong> {{item.qaHours}}h</li>
           <li><strong>Valor:</strong> {{item.pricePerFeature | numeroPreco}}</li>
         </ul>
-
-        <ul v-for="(item, index) in importFeatures" :key="item.id">
+        
+        <ul v-for="(item, index) in importFeatures" :key="`${index}-${item.id}`">
           <li>
             Funcionalidade: {{item.feature}}
             <button class="btn btn-action s-circle btn-sm" data="delete-item" :class="activeDelete ? 'active' : ''" @click="deleteItem(index)"><i class="icon icon-cross"></i></button>
           </li>
           <li>Horas de Desenvolvimento: {{item.devHours}}</li>
           <li>Horas de Teste: {{item.qaHours}}</li>
+          <li><strong>Valor:</strong> {{item.pricePerFeature | numeroPreco}}</li>
         </ul>
       </main>
 
@@ -100,16 +102,18 @@ export default {
   name: "Main",
   data() {
     return {
-      todos: [{
+      /*todos: [
+        {
         'id': 1,
         'feature': 'Correção BUG',
         'devHours': 5,
         'qaHours': 1.2
-      }],
+        }
+      ],*/
       modalFeature: false,
       modalImport: false,
       activeDelete: false,
-      //todos: [],
+      todos: [],
       feature: "",
       devHours: "",
       qaHours: "",
@@ -119,13 +123,12 @@ export default {
       totalPriceHour: "",
       listPriceHour: [],
       features: [],
-      importFeatures: []
+      importFeatures: [],
     };
   },
   methods: {
     handleSubmit(e) {
       e.preventDefault();
-
       // Inserindo os Dados do Form em um Objeto
       let obj;
       if (this.feature.trim().length && this.priceHour) {
@@ -152,8 +155,8 @@ export default {
       let sumPriceHour = 0;
       for (let i = 0; i < this.todos.length; i++) {
         sumFeatures = this.todos[i].feature;
-        sumDevHours = sumDevHours + this.todos[i].devHours;
-        sumQAHours = sumQAHours + this.todos[i].qaHours;
+        sumDevHours += this.todos[i].devHours;
+        sumQAHours += this.todos[i].qaHours;
         sumPriceHour = this.todos[i].pricePerFeature;
       }
       this.listPriceHour.push(sumPriceHour);
@@ -191,9 +194,8 @@ export default {
       }
     },
     importJson() {
-      console.log("selected a file");
-      console.log(this.$refs.myFile.files[0]);
-
+      //console.log("selected a file");
+      //console.log(this.$refs.myFile.files[0]);
       let file = this.$refs.myFile.files[0];
       //if(!file || file.type !== 'text/plain') return;
 
@@ -202,8 +204,33 @@ export default {
       reader.onload = evt => {
         //this.text = evt.target.result;
         let result = JSON.parse(evt.target.result);
-        for (let i = 0; i < result.length; i++) {
-          this.importFeatures.push(result[i]);
+        let obj;
+        let sumDevHours = 0;
+        let sumQAHours = 0;
+        let totalPriceHour = 0;
+        if(this.priceHour) {
+          for (let i = 0; i < result.length; i++) {
+            // Inserindo os Dados do Json em um Objeto
+            obj = {
+              id: result[i].length + 1,
+              feature: result[i].feature,
+              devHours: result[i].devHours,
+              qaHours: result[i].qaHours,
+              pricePerFeature: this.priceHour * (result[i].devHours + result[i].qaHours)
+            };
+            this.importFeatures.push(obj);
+
+            // Soma das Horas de DEV, QA e Contador de Features
+            this.features.push(result[i].feature);
+            this.totalDevHours = (sumDevHours += result[i].devHours);
+            this.totalQaHours = (sumQAHours += result[i].qaHours);
+
+            // Soma de Todos os Valores
+            this.totalPriceHour = (totalPriceHour += this.importFeatures[i].pricePerFeature);
+          }
+        } else {
+          alert('Preencha seu valor por hora!');
+          this.modalImport = false;
         }
       };
       reader.onerror = evt => {
