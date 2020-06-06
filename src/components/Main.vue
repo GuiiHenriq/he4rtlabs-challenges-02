@@ -202,7 +202,7 @@ export default {
       //console.log("selected a file");
       //console.log(this.$refs.myFile.files[0]);
       let file = this.$refs.myFile.files[0];
-      //if(!file || file.type !== 'text/plain') return;
+      if(!file || file.type !== 'application/json') return alert('TIPO DE ARQUIVO INCORRETO');
 
       let reader = new FileReader();
       reader.readAsText(file, "UTF-8");
@@ -247,10 +247,6 @@ export default {
       this.actionStatus.modalImport = false;
     }
   },
-  beforeUpdate() {
-    //this.sumTotal.totalPriceHour = this.inputData.priceHour * (this.sumTotal.totalDevHours + this.sumTotal.totalQaHours);
-    //console.log(`Price Hour ${this.inputData.priceHour}`);
-  }
 };
 </script>
 
