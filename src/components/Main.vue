@@ -207,11 +207,11 @@ export default {
       let reader = new FileReader();
       reader.readAsText(file, "UTF-8");
       reader.onload = evt => {
-        //this.text = evt.target.result;
         this.featureData = [];
         this.featureCounter = [];
         
         let result = JSON.parse(evt.target.result);
+        if(!result[0].feature) return alert('PADRÃO DO JSON INCORRETO');
         let obj;
         let sumDevHours = 0;
         let sumQAHours = 0;
