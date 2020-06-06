@@ -20,7 +20,7 @@
       <main>
         <h2>Suas Features</h2>
 
-        <ul v-for="(item, index) in todos" :key="item.id">
+        <ul v-for="(item, index) in todos" :key="index">
           <li>
             <strong>Funcionalidade:</strong> {{item.feature}}
             <button class="btn btn-action s-circle btn-sm" data="delete-item" :class="activeDelete ? 'active' : ''" @click="deleteItem(index)"><i class="icon icon-cross"></i></button>
@@ -30,15 +30,26 @@
           <li><strong>Valor:</strong> {{item.pricePerFeature | numeroPreco}}</li>
         </ul>
         
-        <ul v-for="(item, index) in importFeatures" :key="`${index}-${item.id}`">
+        <!--<ul v-for="(item, index) in importFeatures" :key="`${index}-${item.id}`">
           <li>
-            Funcionalidade: {{item.feature}}
+            <strong>Funcionalidade:</strong> {{item.feature}}
             <button class="btn btn-action s-circle btn-sm" data="delete-item" :class="activeDelete ? 'active' : ''" @click="deleteItem(index)"><i class="icon icon-cross"></i></button>
           </li>
-          <li>Horas de Desenvolvimento: {{item.devHours}}</li>
-          <li>Horas de Teste: {{item.qaHours}}</li>
+          <li><strong>Horas de Desenvolvimento:</strong> {{item.devHours}}h</li>
+          <li><strong>Horas de Teste:</strong> {{item.qaHours}}h</li>
           <li><strong>Valor:</strong> {{item.pricePerFeature | numeroPreco}}</li>
-        </ul>
+        </ul>-->
+
+        <!--<h1>---------TESTE---------</h1>
+        <ul v-for="(item, index) in todos" :key="index">
+          <li>
+            <strong>Funcionalidade:</strong> {{item.feature}}
+            <button class="btn btn-action s-circle btn-sm" data="delete-item" :class="activeDelete ? 'active' : ''" @click="deleteItem(index)"><i class="icon icon-cross"></i></button>
+          </li>
+          <li><strong>Horas de Desenvolvimento:</strong> {{item.devHours}}h</li>
+          <li><strong>Horas de Teste:</strong> {{item.qaHours}}h</li>
+          <li><strong>Valor:</strong> {{item.pricePerFeature | numeroPreco}}</li>
+        </ul>-->
       </main>
 
       <aside>
@@ -61,7 +72,7 @@
         </div>
         <div class="modal-body">
           <div class="content">
-            <form @submit="handleSubmit">
+            <form @submit="addFeatures">
               <label class="form-label" for="features">Funcionalidade:</label>
               <input class="form-input" id="features" type="text" v-model.lazy="feature" />
 
@@ -124,16 +135,17 @@ export default {
       listPriceHour: [],
       features: [],
       importFeatures: [],
+      teste: []
     };
   },
   methods: {
-    handleSubmit(e) {
+    addFeatures(e) {
       e.preventDefault();
       // Inserindo os Dados do Form em um Objeto
       let obj;
       if (this.feature.trim().length && this.priceHour) {
         obj = {
-          id: this.todos.length + 1,
+          //id: this.todos.length + 1,
           feature: this.feature,
           devHours: this.devHours,
           qaHours: this.qaHours,
@@ -144,32 +156,33 @@ export default {
         this.devHours = "";
         this.qaHours = "";
         this.pricePerFeature = "";
-      } else {
-        alert('Preencha seu valor por hora!')
-      }
-
+      
       // Soma das Horas de DEV, QA e Contador de Features
       let sumDevHours = 0;
       let sumQAHours = 0;
       let sumFeatures = 0;
-      let sumPriceHour = 0;
+      let totalPriceHour = 0;
       for (let i = 0; i < this.todos.length; i++) {
         sumFeatures = this.todos[i].feature;
         sumDevHours += this.todos[i].devHours;
         sumQAHours += this.todos[i].qaHours;
-        sumPriceHour = this.todos[i].pricePerFeature;
+        this.totalPriceHour = (totalPriceHour += this.todos[i].pricePerFeature);
       }
-      this.listPriceHour.push(sumPriceHour);
       this.features.push(sumFeatures);
       this.totalDevHours = sumDevHours;
       this.totalQaHours = sumQAHours;
+      
+      } else {
+        alert('Preencha seu valor por hora!')
+      }
 
       // Soma de Todos os Valores
-      let totalPriceHour = 0;
+      /*let totalPriceHour = 0;
       for ( let i = 0; i < this.listPriceHour.length; i++ ){
         totalPriceHour += this.listPriceHour[i];
+        console.log(this.listPriceHour[i])
       }
-      this.totalPriceHour = totalPriceHour;
+      this.totalPriceHour = totalPriceHour;*/
     },
     deleteItem(index) {
       if(this.todos.length) {
@@ -203,6 +216,9 @@ export default {
       reader.readAsText(file, "UTF-8");
       reader.onload = evt => {
         //this.text = evt.target.result;
+        this.todos = [];
+        this.features = [];
+        
         let result = JSON.parse(evt.target.result);
         let obj;
         let sumDevHours = 0;
@@ -218,7 +234,7 @@ export default {
               qaHours: result[i].qaHours,
               pricePerFeature: this.priceHour * (result[i].devHours + result[i].qaHours)
             };
-            this.importFeatures.push(obj);
+            this.todos.push(obj);
 
             // Soma das Horas de DEV, QA e Contador de Features
             this.features.push(result[i].feature);
@@ -226,7 +242,7 @@ export default {
             this.totalQaHours = (sumQAHours += result[i].qaHours);
 
             // Soma de Todos os Valores
-            this.totalPriceHour = (totalPriceHour += this.importFeatures[i].pricePerFeature);
+            this.totalPriceHour = (totalPriceHour += this.todos[i].pricePerFeature);
           }
         } else {
           alert('Preencha seu valor por hora!');
