@@ -127,6 +127,7 @@ export default {
         totalPriceHour: "",
       },
       featureData: [],
+      featureExport: [],
       featureCounter: [],
     };
   },
@@ -144,50 +145,65 @@ export default {
           pricePerFeature: this.inputData.priceHour * (this.inputData.devHours + this.inputData.qaHours)
         };
         this.featureData.push(obj);
+        this.featureExport.push(obj);
+
         this.inputData.featureName = "";
         this.inputData.devHours = "";
         this.inputData.qaHours = "";
         this.pricePerFeature = "";
       
-      // Soma das Horas de DEV, QA e Contador de Features
-      let sumDevHours = 0;
-      let sumQAHours = 0;
-      let sumFeatures = 0;
-      let totalPriceHour = 0;
-      for (let i = 0; i < this.featureData.length; i++) {
-        sumFeatures = this.featureData[i].feature;
-        sumDevHours += this.featureData[i].devHours;
-        sumQAHours += this.featureData[i].qaHours;
-        this.sumTotal.totalPriceHour = (totalPriceHour += this.featureData[i].pricePerFeature);
-      }
-      this.featureCounter.push(sumFeatures);
-      this.sumTotal.totalDevHours = sumDevHours;
-      this.sumTotal.totalQaHours = sumQAHours;
+        // Soma das Horas de DEV, QA e Contador de Features
+        let sumDevHours = 0;
+        let sumQAHours = 0;
+        let sumFeatures = 0;
+        let totalPriceHour = 0;
+        for (let i = 0; i < this.featureData.length; i++) {
+          sumFeatures = this.featureData[i].feature;
+          sumDevHours += this.featureData[i].devHours;
+          sumQAHours += this.featureData[i].qaHours;
+          this.sumTotal.totalPriceHour = (totalPriceHour += this.featureData[i].pricePerFeature);
+        }
+        this.featureCounter.push(sumFeatures);
+        this.sumTotal.totalDevHours = sumDevHours;
+        this.sumTotal.totalQaHours = sumQAHours;
 
       } else {
         alert('Preencha seu valor por hora!')
       }
 
-      // Soma de Todos os Valores
-      /*let totalPriceHour = 0;
-      for ( let i = 0; i < this.listPriceHour.length; i++ ){
-        totalPriceHour += this.listPriceHour[i];
-        console.log(this.listPriceHour[i])
-      }
-      this.sumTotal.totalPriceHour = totalPriceHour;*/
+        // Soma de Todos os Valores
+        /*let totalPriceHour = 0;
+        for ( let i = 0; i < this.listPriceHour.length; i++ ){
+          totalPriceHour += this.listPriceHour[i];
+          console.log(this.listPriceHour[i])
+        }
+        this.sumTotal.totalPriceHour = totalPriceHour;*/
     },
     deleteItem(index) {
       if(this.featureData.length) {
         this.$delete(this.featureData, index);
+        this.$delete(this.featureExport, index);
       }
-      /*if(this.importFeatures.length) {
-        this.$delete(this.importFeatures, index);
-      }*/
+
+      let sumDevHours = 0;
+      let sumQAHours = 0;
+      let sumFeatures = 0;
+      //let totalPriceHour = 0;
+      for (let i = 0; i < this.featureData.length; i++) {
+        sumFeatures = this.featureData[i].feature;
+        sumDevHours = this.featureData[i].devHours;
+        sumQAHours = this.featureData[i].qaHours;
+        this.sumTotal.totalPriceHour =  this.featureData[i].pricePerFeature;
+      }
+      this.featureCounter.push(sumFeatures);
+      this.sumTotal.totalDevHours = sumDevHours;
+      this.sumTotal.totalQaHours = sumQAHours;
     },
     exportJson() {
-      let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.featureData));
+      for (let i = 0; i < this.featureExport.length; i++) delete this.featureExport[i].pricePerFeature;
+      let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.featureExport));
       let downloadAnchorNode = document.createElement("a");
-      console.log(this.featureData)
+      console.log(this.featureExport)
       if(this.featureData.length) {
         downloadAnchorNode.setAttribute("href", dataStr);
         downloadAnchorNode.setAttribute("download", "features" + ".json");
@@ -220,13 +236,14 @@ export default {
           for (let i = 0; i < result.length; i++) {
             // Inserindo os Dados do Json em um Objeto
             obj = {
-              id: result[i].length + 1,
+              //id: result[i].length + 1,
               feature: result[i].feature,
               devHours: result[i].devHours,
               qaHours: result[i].qaHours,
               pricePerFeature: this.inputData.priceHour * (result[i].devHours + result[i].qaHours)
             };
             this.featureData.push(obj);
+            this.featureExport.push(obj);
 
             // Soma das Horas de DEV, QA e Contador de Features
             this.featureCounter.push(result[i].feature);
