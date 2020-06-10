@@ -187,17 +187,19 @@ export default {
 
       let sumDevHours = 0;
       let sumQAHours = 0;
-      let sumFeatures = 0;
-      //let totalPriceHour = 0;
       for (let i = 0; i < this.featureData.length; i++) {
-        sumFeatures = this.featureData[i].feature;
         sumDevHours = this.featureData[i].devHours;
         sumQAHours = this.featureData[i].qaHours;
         this.sumTotal.totalPriceHour =  this.featureData[i].pricePerFeature;
       }
-      this.featureCounter.push(sumFeatures);
+      this.featureCounter.splice(1, 1)
       this.sumTotal.totalDevHours = sumDevHours;
       this.sumTotal.totalQaHours = sumQAHours;
+
+      if(this.featureData.length == 0) {
+        this.featureCounter = [];
+        this.sumTotal.totalPriceHour = 0;
+      }
     },
     exportJson() {
       for (let i = 0; i < this.featureExport.length; i++) delete this.featureExport[i].pricePerFeature;
