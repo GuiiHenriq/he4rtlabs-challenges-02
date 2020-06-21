@@ -30,6 +30,10 @@ export default {
   margin: 0 auto;
 }
 
+body {
+  background-color: #F6F7FA !important;
+}
+
 body, input, label, button {
   font-family: 'Source Sans Pro', sans-serif;
   font-family: 'Noto Sans JP', sans-serif;

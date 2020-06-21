@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div class="row">
+    <div class="row head">
       <section class="actions">
         <button class="btn btn-primary btn-lg tooltip" data-tooltip="Adicionar" @click="actionStatus.modalFeature = !actionStatus.modalFeature"><i class="icon icon-plus"></i></button>
         <button class="btn btn-primary btn-lg tooltip" data-tooltip="Deletar" @click="actionStatus.activeDelete = !actionStatus.activeDelete"><i class="icon icon-delete"></i></button>
@@ -20,7 +20,23 @@
       <main>
         <h2>Suas Features</h2>
 
-        <ul v-for="(item, index) in featureData" :key="index">
+        <ul>
+          <div class="list-head">
+            <li><strong>Funcionalidade</strong></li>
+            <li><strong>Horas Dev</strong></li>
+            <li><strong>Horas Teste</strong></li>
+            <li><strong>Valor</strong></li>
+          </div>
+          <li v-for="(item, index) in featureData" :key="index">
+            <p>{{item.feature}}</p>
+            <p>{{item.devHours}}</p>
+            <p>{{item.qaHours}}</p>
+            <p>{{item.pricePerFeature | numeroPreco}}</p>
+          </li>
+        </ul>
+
+        <!-- ORIGINAL - ANTERIOR -->
+        <!--<ul v-for="(item, index) in featureData" :key="index">
           <li>
             <strong>Funcionalidade:</strong> {{item.feature}}
             <button class="btn btn-action s-circle btn-sm" data="delete-item" :class="actionStatus.activeDelete ? 'active' : ''" @click="deleteItem(index)"><i class="icon icon-cross"></i></button>
@@ -28,27 +44,21 @@
           <li><strong>Horas de Desenvolvimento:</strong> {{item.devHours}}h</li>
           <li><strong>Horas de Teste:</strong> {{item.qaHours}}h</li>
           <li><strong>Valor:</strong> {{item.pricePerFeature | numeroPreco}}</li>
-        </ul>
-        
-        <!--<ul v-for="(item, index) in importFeatures" :key="`${index}-${item.id}`">
-          <li>
-            <strong>Funcionalidade:</strong> {{item.feature}}
-            <button class="btn btn-action s-circle btn-sm" data="delete-item" :class="actionStatus.activeDelete ? 'active' : ''" @click="deleteItem(index)"><i class="icon icon-cross"></i></button>
-          </li>
-          <li><strong>Horas de Desenvolvimento:</strong> {{item.inputData.devHours}}h</li>
-          <li><strong>Horas de Teste:</strong> {{item.qaHours}}h</li>
-          <li><strong>Valor:</strong> {{item.pricePerFeature | numeroPreco}}</li>
         </ul>-->
       </main>
 
       <aside>
-        <h6>Total de Funcionalidades: {{featureCounter.length}}</h6>
-        <!--<ul>
-          <li v-for="(feature, index) in features" :key="index">{{feature}}</li>
-        </ul>-->
-        <h6>Total Horas de Desenvolvimento: {{sumTotal.totalDevHours}}</h6>
-        <h6>Total Horas de Teste: {{sumTotal.totalQaHours}}</h6>
-        <h6>Valor Total: {{sumTotal.totalPriceHour | numeroPreco}}</h6>
+        <h2>Resumo</h2>
+
+        <div>
+          <h6>Total de Funcionalidades: <strong>{{featureCounter.length}}</strong></h6>
+          <!--<ul>
+            <li v-for="(feature, index) in features" :key="index">{{feature}}</li>
+          </ul>-->
+          <h6>Total Horas Desenvolvimento: <strong>{{sumTotal.totalDevHours}}</strong></h6>
+          <h6>Total Horas Teste: <strong>{{sumTotal.totalQaHours}}</strong></h6>
+          <h6>Valor Total: <strong>{{sumTotal.totalPriceHour | numeroPreco}}</strong></h6>
+        </div>
       </aside>
     </div>
 
@@ -278,21 +288,91 @@ export default {
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
+  
+  &.head {
+    padding-bottom: 10px;
+    border-bottom: 2px solid #D8DAE6;
+
+    .actions {
+        button {
+          margin: 0 5px;
+        }
+      }
+
+    .valor-hora {
+      width: 30%;
+    }
+  }
+  
 
   main {
     min-width: 65%;
-    background: #fff;
+    background: transparent;
     color: #0d1317;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+
+    ul {
+      overflow: auto;
+      margin: 0 !important;
+    }
+
+    .list-head {
+      display: flex;
+      //padding: 10px;
+      margin-bottom: 15px;
+      background: transparent;
+      //box-shadow: 0 4px 6px 0 rgba(31,70,88,.04);
+
+      li {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+        width: 100%;
+        margin: 0 !important;
+        font-size: 20px;
+        color: #D8DAE6;
+        border-radius: 0;
+      }
+    }
+
+    li {
+      //box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      //box-shadow: 0 4px 6px 0 rgba(31,70,88,.04);
+      transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+      width: 100%;
+      border-radius: 0;
+      margin: 0 0 3px 0;
+      padding: 10px;
+      background: #fff;
+      font-size: 18px;
+      letter-spacing: .5px;
+      display: flex;
+      justify-content: space-around;
+      border-radius: 4px;
+
+      p {
+        width: 100%;
+        text-align: center;
+        margin: 5px 0;
+      }
+    }
   }
 
   aside {
-    background: #6564db;
-    color: white;
     min-width: 30%;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    display: flex;
+    flex-direction: column;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #6564db;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+      color: white;
+      height: 100%;
+    }
   }
 }
 
@@ -311,5 +391,23 @@ form {
 
 .btn[data="delete-item"].active {
   display: inline-block;
+}
+
+@media only screen and (max-width: 768px) {
+  .row {
+    flex-direction: column;
+    
+    .actions {
+      display: flex;
+      justify-content: center;
+
+      button {
+        margin: 0 10px 5px 10px;
+      }
+    }
+    .valor-hora {
+      width: 100%;
+    }
+  }
 }
 </style>
