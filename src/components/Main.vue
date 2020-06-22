@@ -296,6 +296,7 @@ export default {
 
   h2 {
     font-family: 'Oswald', sans-serif;
+    color: #000;
   }
   
   &.head {
@@ -431,6 +432,9 @@ form {
       }
     }
 
+    aside {
+      margin-top: 25px;
+    }
   }
 }
 </style>
