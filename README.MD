@@ -1,148 +1,164 @@
-# Projeto 002 - Planilha de cotação para Freelas (2/3)
 
-Uma planilha com a cotação de todo o projeto a ser desenvolvido para melhor visualização do cliente.
+<h1>Cotação Freela</h1>
 
-## Qual é o valor que o desafio entrega?
+  
 
-Quando você vai cotar um freelance, não adianta saber apenas o quanto vale a sua hora mas sim quantas horas você vai gastar fazendo cada uma das funcionalidades. Mas nem tudo no projeto é desenvolvimento e é sobre isso que devemos entender neste desafio.
+<p  align="center">
 
-Em qualquer tipo de projeto que envolve um software, desenvolver é o principal fator determinante para a conclusão do projeto. Porém é bem comum não cobrir **testes de aceitação** pois isso custa **tempo** e agora sabemos que o nosso tempo tem algum valor, certo?!
+<img  src="https://img.shields.io/static/v1?label=vue&message=framework&color=42b883&style=for-the-badge&logo=vue.js"/>
 
-A ideia é desenvolver uma "planilha" na qual irá ser focada em cotar o trabalho como um todo, baseando-se em **horas de desenvolvimento e testes** de cada **funcionalidade**.
+<img  src="https://img.shields.io/static/v1?label=Netlify&message=deploy&color=blue&style=for-the-badge&logo=netlify"/>
 
-Pense em um formulário onde você deverá preencher os seguintes campos:
+<img  src="http://img.shields.io/static/v1?label=STATUS&message=CONCLUIDO&color=GREEN&style=for-the-badge"/>
 
-1. Nome da funcionalidade
+</p>
 
-   Um nome simples e objetivo do que deverá ser desenvolvido, para um fácil entendimento principalmente do **cliente**.
+  
 
-   Exemplo: Autenticação de Usuários
+> Status do Projeto: :heavy_check_mark:
 
-2. Horas de Desenvolvimento
+  
 
-   Entenda esse campo como a quantidade de horas que você julga para a feature como um todo. Após ter esse valor já definido na sua funcionalidade, dentro do seu projeto deverá ser quebrado tarefas que contemplem essas horas. O exemplo abaixo é apenas para entendimento de como ficaria num projeto real.
+### Tópicos
 
-   Exemplo: Autenticação de usuários, 10 horas.
+  
 
-   - Tarefa 1: Estruturação do banco de dados -> 2 horas
-   - Tarefa 2: Desenvolvimento do Front-end -> 5 horas
-   - Tarefa 3: Desenvolvimento do Back-end -> 3 horas
+:small_blue_diamond: [Descrição do desafio](https://github.com/GuiiHenriq/he4rtlabs-challenges-02/blob/master/PROJECT.MD)
 
-3. Horas de Teste
+:small_blue_diamond: [Resumo do projeto](#resumo-do-projeto)
 
-   Testes são na maior parte do tempo priorizados apenas no back-end, onde de fato é onde deve tudo funcionar. Porém testes devem cobrir muito mais do que apenas o **caminho feliz** e muito desses caminhos infelizes são descobertos à partir de testes no front-end. Então é de suma importância reservar horas especificas para testar e ter principalmente um **roteiro de testes** AKA. BDD (Behavior Driven Development).
+:small_blue_diamond: [Funcionalidades](#funcionalidades)
 
-4. Valor da funcionalidade
+:small_blue_diamond: [Casos de Uso](#casos-de-uso)
 
-   Deverá ser gerado baseado no **valor da sua hora** multiplicado pelos valores somados das horas de desenvolvimento e testes para melhor visualização do cliente.
+:small_blue_diamond: [Deploy da Aplicação](#deploy-da-aplicação-dash)
 
-A ideia do desafio é mostrar que para cotar um projeto, é necessário um pouco mais de cuidado para o que você está passando pro cliente e que ambas as partes estejam sempre alinhadas sobre o que está acordado.
+:small_blue_diamond: [Como rodar a aplicação](#como-rodar-a-aplicação-arrow_forward)
 
-## Desafio
+  
 
-Wireframe: https://wireframe.cc/pro/pp/115e33462323006
 
-* Crie um fork deste repositório e trabalhe os arquivos da pasta "src".
-* Crie uma pagina usando o conceito do wireframe acima com os seguintes elementos:
+  
 
-- Header
-  1. Logo da He4rt Developers
-  2. Nome do Projeto
-- Barra de ações
+## Resumo do projeto
 
-  1. Inserir (Registro)
-     - Ao clicar nesse botão, deverá aparecer o formulário/modal com os elementos descritos para o preenchimento dos campos: Funcionalidade, Horas de Desenvolvimento e Horas de Teste.
-  2. Remover (Registro)
-     - Ao clicar nesse botão, deverá haver algum tipo de seleção do campo que você deseja apagar.
-  3. Importar (Registros)
+<p  align="justify">
 
-     - Acione um input do tipo file e faça o upload de um arquivo de registros ao clicar no botão importar.
-     - Deverá ser aceito um arquivo **json** com registros padronizados e esses mesmos registros devem sobrescrever os que já estão na tabela. O exemplo abaixo deverá ser usado como critério de aceite, sendo ele passado para um arquivo features.json.
+A ideia é ajudar os Freelancers com uma "planilha" na qual irá ser focada em cotar o trabalho como um todo, baseando-se em  **horas de desenvolvimento e testes**  de cada  **funcionalidade**. Baseado nesses itens, será calculado o valor de cada feature e o valor do projeto inteiro.
 
-     ```json
-     [
-         {
-             "feature": "Authentication",
-             "devHours": 10,
-             "testHours": 2
-         },
-         {
-             "feature": "User CRUD",
-             "devHours": 14,
-             "testHours": 3
-         },
-         {
-             "feature": "User CRUD",
-             "devHours": 14,
-             "testHours": 3
-         }
-     ]
-     ```
+</p>
 
-     - Caso não siga o padrão do json acima, deverá retornar um erro para o usuário invalidando o processo.
+  
 
-  4. Exportar (Registros)
-     - Ao clicar no botão de exportar, deve ser gerado um arquivo **features.json** com todos os dados que estão na área de funcionalidades.
-     - O modelo deve seguir o mesmo padrão do exemplo abaixo:
-     ```json
-     [
-        {
-            "feature": "string",
-            "devHours": 0,
-            "testHours": 0
-        },
-        ...
-     ]
-     ```
+## Funcionalidades
 
-- Valor Hora
+  
 
-  1. Deverá ter um input com o valor (decimal) da sua hora.
+:heavy_check_mark: Adicionar Features do Projeto  
 
-- Lista de Funcionalidades
+:heavy_check_mark: Deletar Features
 
-  1. Deverá ser feito em um tipo de lista (cards, tabelas etc) com os elementos do formulário.
-  2. Deverá ter um atributo que será o calculo dos valores referentes a funcionalidade, sendo o calculo:
+:heavy_check_mark: Importar/Exportar JSON  
 
-  ```text
-  valorFeature = valorHora * ( horasDev + horasTeste)
-  ```
+  
+## Casos de Uso
 
-  3. As colunas finais serão: Funcionalidade, Horas Dev, Horas Teste, Valor
+  
 
-- Sidebar
+Explique com mais detalhes como a sua aplicação poderia ser utilizada. O uso de **gifs** aqui seria bem interessante.
 
-  1. Deverá ter um contador de quantas funcionalidades estão sendo feitas
-  2. Deverá ter um contador de Horas de Desenvolvimento do projeto
-  3. Deverá ter um contador de Horas de Teste do projeto
-  4. Deverá ter uma somatória dos valores de todas as features como um valor total do PROJETO.
+<p  align="center">
+[![use-cotacao-freela.gif](https://s7.gifyu.com/images/use-cotacao-freela.gif)](https://gifyu.com/image/urR0)
+</p>
+  
 
-- Rodapé (Footer)
-  1. Colocar links referentes as suas redes sociais e uma referencia a He4rtLabsChallenges.
+Exemplo: Caso a sua aplicação tenha alguma funcionalidade de login apresente neste tópico os dados necessários para acessá-la.
+...
+  
 
-Cuidados a se tomar:
+## Como rodar a aplicação :arrow_forward:
 
-- Todas as ações que forem tomadas, deverão ter algum retorno. Não serão aceito botões que não executam sem um retorno prévio pro usuário.
-- Pense nessa lista de funcionalidades como um **objeto**.
+  
 
-### Comentários
+No terminal, clone o projeto e siga as steps:
 
-O template passado no wireframe é OPCIONAL. Logo, você pode sim fazer algo no seu estilo porém devem ter os mesmos elementos descritos no desafio. Caso vocẽ faça um wireframe diferente que possa agregar no desafio, abra um pull request para que possamos avaliar.
+  
 
-A ideia é criar um objeto principal onde será armazenado todos os valores e refletir os mesmos na sua lista de funcionalidades e também nas ações de importar e exportar.
+```
 
-Os arquivos iniciais da pagina estarão com alguns comentários sobre
+git clone https://github.com/GuiiHenriq/he4rtlabs-challenges-02
 
-### Conclusão do Desafio
+```
+```
 
-Commite as alterações feitas e faça um post ou no nosso Discord na sala `#he4rtlabs-challenges` ou um post no Twitter com a hashtag `#He4rtLabsChallenges` e iremos divulgar e/ou fazer um review do seu código.
+npm install (recomendado as versões mais recentes do Node)
 
-Caso você se sinta confortável, deixamos um arquivo chamado REVIEW.MD para você fazer alguns comentários sobre o desafio e o que você achou no geral.
+```
+```
 
-## Créditos
+npm run serve
 
-Este desafio foi desenvolvido pelo grupo [He4rt Developers](https://heartdevs.com) para uso livre da comunidade.
+```  
 
-## Autor
+...
+  
+## Deploy da Aplicação :dash:
 
-- Daniel Reis (danielhe4rt) - Back-end Developer && He4rt Developers Leader - [Portfólio](https://danielheart.dev) - [Twitter](https://twitter.com/danielhe4rt)
+  
+
+> Link: https://cotacao-freela.netlify.app/
+
+  
+
+...
+
+
+## Linguagens, dependencias e libs utilizadas :books:
+
+  
+
+-  [Vue](https://vuejs.org/)
+
+-  [Spectre.css](https://picturepan2.github.io/spectre/index.html)
+
+  
+...
+  
+
+## Tarefas em aberto :exclamation:
+
+  
+
+Se for o caso, liste tarefas/funcionalidades que ainda precisam ser implementadas na sua aplicação
+
+  
+
+:memo: Componentização
+
+  
+
+:memo: Refatorar Algumas Funções
+
+  
+
+:memo: Testes (TDD)  
+
+## Desenvolvedores/Contribuintes :octocat:
+
+  
+
+Liste o time responsável pelo desenvolvimento do projeto
+
+  
+
+| [<img src="https://avatars2.githubusercontent.com/u/46378210?s=400&u=071f7791bb03f8e102d835bdb9c2f0d3d24e8a34&v=4" width=115><br><sub>Diana Regina</sub>](https://github.com/Diana-ops) | [<img src="https://avatars2.githubusercontent.com/u/46378210?s=400&u=071f7791bb03f8e102d835bdb9c2f0d3d24e8a34&v=4" width=115><br><sub>Diana Regina</sub>](https://github.com/Diana-ops) | [<img src="https://avatars2.githubusercontent.com/u/46378210?s=400&u=071f7791bb03f8e102d835bdb9c2f0d3d24e8a34&v=4" width=115><br><sub>Diana Regina</sub>](https://github.com/Diana-ops) |
+
+| :---: | :---: | :---:
+
+  
+
+## Licença
+
+The [MIT License]() (MIT)
+
+Copyright :copyright: 2020 - He3art Developers
