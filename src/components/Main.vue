@@ -28,9 +28,11 @@
             <li><strong>Valor</strong></li>
           </div>
           <li v-for="(item, index) in featureData" :key="index">
+
+            <button class="btn btn-action s-circle btn-sm" data="delete-item" :class="actionStatus.activeDelete ? 'active' : ''" @click="deleteItem(index)"><i class="icon icon-cross"></i></button>
             <p>{{item.feature}}</p>
-            <p>{{item.devHours}}</p>
-            <p>{{item.qaHours}}</p>
+            <p>{{item.devHours}}h</p>
+            <p>{{item.qaHours}}h</p>
             <p>{{item.pricePerFeature | numeroPreco}}</p>
           </li>
         </ul>
@@ -280,14 +282,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
+
 .main {
   padding: 30px 0;
 }
+
 .row {
   display: flex;
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
+
+  h2 {
+    font-family: 'Oswald', sans-serif;
+  }
   
   &.head {
     padding-bottom: 10px;
@@ -304,7 +313,6 @@ export default {
     }
   }
   
-
   main {
     min-width: 65%;
     background: transparent;
@@ -317,10 +325,11 @@ export default {
 
     .list-head {
       display: flex;
-      //padding: 10px;
       margin-bottom: 15px;
       background: transparent;
       //box-shadow: 0 4px 6px 0 rgba(31,70,88,.04);
+      font-family: 'Roboto', sans-serif;
+      font-weight: 300;
 
       li {
         display: flex;
@@ -328,9 +337,10 @@ export default {
         flex-direction: row;
         width: 100%;
         margin: 0 !important;
-        font-size: 20px;
         color: #D8DAE6;
         border-radius: 0;
+        text-transform: uppercase;
+        letter-spacing: -0.8px;
       }
     }
 
@@ -339,15 +349,13 @@ export default {
       //box-shadow: 0 4px 6px 0 rgba(31,70,88,.04);
       transition: all 0.3s cubic-bezier(.25,.8,.25,1);
       width: 100%;
-      border-radius: 0;
       margin: 0 0 3px 0;
       padding: 10px;
       background: #fff;
       font-size: 18px;
-      letter-spacing: .5px;
       display: flex;
       justify-content: space-around;
-      border-radius: 4px;
+      border-radius: 5px;
 
       p {
         width: 100%;
@@ -367,7 +375,9 @@ export default {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background: #6564db;
+      border-radius: 5px;
+      padding: 20px 0;
+      background: #9163CC;
       box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
       transition: all 0.3s cubic-bezier(.25,.8,.25,1);
       color: white;
@@ -376,8 +386,8 @@ export default {
   }
 }
 
-.content {
-  padding-top: 10px;
+.row.content {
+  padding-top: 25px;
 }
 
 form {
@@ -393,21 +403,34 @@ form {
   display: inline-block;
 }
 
+.modal-container {
+  .modal-footer {
+    padding: .8rem 0;
+  }
+}
+
+// Mobile
 @media only screen and (max-width: 768px) {
   .row {
     flex-direction: column;
-    
-    .actions {
+
+    &.head {
+      flex-wrap: wrap-reverse;
+
+      .actions {
       display: flex;
       justify-content: center;
 
-      button {
-        margin: 0 10px 5px 10px;
+        button {
+          margin: 0 10px 5px 10px;
+        }
+      }
+      
+      .valor-hora {
+        width: 100%;
       }
     }
-    .valor-hora {
-      width: 100%;
-    }
+
   }
 }
 </style>

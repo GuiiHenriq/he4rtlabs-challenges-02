@@ -24,6 +24,7 @@ export default {
 <style lang="scss" >
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
 
 #app {
   max-width: 1280px;
@@ -37,19 +38,30 @@ body {
 body, input, label, button {
   font-family: 'Source Sans Pro', sans-serif;
   font-family: 'Noto Sans JP', sans-serif;
-}
-
-.btn.btn-primary {
-  background-color: #6564db !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 
 ul, li {
   list-style: none;
 }
 
-//#0d1317
-//#101d42
-//#232ed1
-//#6564db
-//#89d2dc
+.btn.btn-primary {
+  border: none !important;
+  color: #9163CC !important;
+  background-color: #fff !important;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  //background-color: #6564db !important;
+}
+
+.btn.btn-primary:hover {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.modal-footer {
+  .btn.btn-primary {
+    color: #fff !important;
+    background-color: #9163CC !important;
+  }
+}
 </style>

@@ -20,18 +20,21 @@ export default {
 
 <style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
 
 header {
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  color: #fff;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background-color: #fff;
+  color: #0d1317;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
   img {
     max-width: 200px;
   }
 
   h1 {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Oswald', sans-serif;
     color: black;
   }
 }
