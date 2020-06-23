@@ -28,12 +28,11 @@
             <li><strong>Valor</strong></li>
           </div>
           <li v-for="(item, index) in featureData" :key="index">
-
-            <button class="btn btn-action s-circle btn-sm" data="delete-item" :class="actionStatus.activeDelete ? 'active' : ''" @click="deleteItem(index)"><i class="icon icon-cross"></i></button>
             <p>{{item.feature}}</p>
             <p>{{item.devHours}}h</p>
             <p>{{item.qaHours}}h</p>
             <p>{{item.pricePerFeature | numeroPreco}}</p>
+            <button class="btn" data="delete-item" :class="actionStatus.activeDelete ? 'active' : ''" @click="deleteItem(index)"><i class="icon icon-cross"></i></button>
           </li>
         </ul>
 
@@ -402,6 +401,9 @@ form {
 
 .btn[data="delete-item"].active {
   display: inline-block;
+  color: #fff !important;
+  background-color: #9163CC !important;
+  border: none !important;
 }
 
 .modal-container {
