@@ -161,6 +161,8 @@ npm run serve
 
 :memo: Refatorar Algumas Funções
 
+:memo: Melhorias UX Mobile
+
 :memo: Testes (TDD)
 
 

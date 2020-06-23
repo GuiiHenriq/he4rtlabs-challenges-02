@@ -41,17 +41,6 @@
             <button class="btn" data="delete-item" :class="actionStatus.activeDelete ? 'active' : ''" @click="deleteItem(index)"><i class="icon icon-cross"></i></button>
           </li>
         </ul>
-
-        <!-- ORIGINAL - ANTERIOR -->
-        <!--<ul v-for="(item, index) in featureData" :key="index">
-          <li>
-            <strong>Funcionalidade:</strong> {{item.feature}}
-            <button class="btn btn-action s-circle btn-sm" data="delete-item" :class="actionStatus.activeDelete ? 'active' : ''" @click="deleteItem(index)"><i class="icon icon-cross"></i></button>
-          </li>
-          <li><strong>Horas de Desenvolvimento:</strong> {{item.devHours}}h</li>
-          <li><strong>Horas de Teste:</strong> {{item.qaHours}}h</li>
-          <li><strong>Valor:</strong> {{item.pricePerFeature | numeroPreco}}</li>
-        </ul>-->
       </main>
 
       <aside>
