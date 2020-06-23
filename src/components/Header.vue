@@ -38,4 +38,15 @@ header {
     color: black;
   }
 }
+
+// Mobile
+@media only screen and (max-width: 768px) {
+  .navbar-section {
+    justify-content: center;
+  }
+  .navbar-center {
+    width: 100%;
+    justify-content: center;
+  }
+}
 </style>

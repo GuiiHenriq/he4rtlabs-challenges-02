@@ -21,10 +21,16 @@
         <h2>Suas Features</h2>
 
         <ul>
-          <div class="list-head">
+          <div class="list-head desk">
             <li><strong>Funcionalidade</strong></li>
             <li><strong>Horas Dev</strong></li>
             <li><strong>Horas Teste</strong></li>
+            <li><strong>Valor</strong></li>
+          </div>
+          <div class="list-head mobile">
+            <li><strong>Feature</strong></li>
+            <li><strong>Dev</strong></li>
+            <li><strong>Teste</strong></li>
             <li><strong>Valor</strong></li>
           </div>
           <li v-for="(item, index) in featureData" :key="index">
@@ -53,9 +59,6 @@
 
         <div>
           <h6>Total de Funcionalidades: <strong>{{featureCounter.length}}</strong></h6>
-          <!--<ul>
-            <li v-for="(feature, index) in features" :key="index">{{feature}}</li>
-          </ul>-->
           <h6>Total Horas Desenvolvimento: <strong>{{sumTotal.totalDevHours}}</strong></h6>
           <h6>Total Horas Teste: <strong>{{sumTotal.totalQaHours}}</strong></h6>
           <h6>Valor Total: <strong>{{sumTotal.totalPriceHour | numeroPreco}}</strong></h6>
@@ -113,14 +116,6 @@ export default {
   name: "Main",
   data() {
     return {
-      /*featureData: [
-        {
-        'id': 1,
-        'feature': 'Correção BUG',
-        'devHours': 5,
-        'qaHours': 1.2
-        }
-      ],*/
       actionStatus: {
         modalFeature: false,
         modalImport: false,
@@ -412,8 +407,14 @@ form {
   }
 }
 
+.list-head.desk {display: flex !important}
+.list-head.mobile {display: none !important}
+
 // Mobile
 @media only screen and (max-width: 768px) {
+  .list-head.desk {display: none !important}
+  .list-head.mobile {display: flex !important}
+
   .row {
     flex-direction: column;
 
